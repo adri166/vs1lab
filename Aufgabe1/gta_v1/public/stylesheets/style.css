@@ -47,6 +47,25 @@ a {
 /* ### TODO ### Styles for other HTML elements */
 
 /* ... your code here ... */
+input{
+  margin: 5px;
+  padding: 10px;
+  display: block;
+}
+
+label{
+  margin: 5px;
+}
+
+legend {
+  font-weight: bold;
+}
+
+fieldset {
+  padding: 10px;
+  margin: 5px 0px;
+}
+
 
 
 /* Grid styles (no changes required) */
@@ -110,28 +129,113 @@ a {
 /* ### TODO ### Styles for Header Component */
 
 /* ... your code here ... */
+.row {
+  padding: 10px;
+  align-items: center;
+}
+.header{
+  background-color: #dddddd;
+  padding: 40px;
+  clear: both;
+}
+.header__image {
+  height: 50px;
+  float: left;
+}
 
+.header__title {
+  text-align: center;
+}
+
+.header__navigation {
+  float: right;
+}
 
 /* ### TODO ### Styles for Main Component */
 
 /* ... your code here ... */
-
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 
 /* ### TODO ### Styles for Tagging component */
 
 /* ... your code here ... */
+.tagging {
+  display: flex;
+  margin: 20px;
+  flex-direction: column;
+}
+
+.tagging input {
+  width: calc(100% - 10px);
+}
 
 
 /* ### TODO ### Styles for Discovery component */
 
 /* ... your code here ... */
+.discovery {
+  display: flex;
+  margin: 20px;
+  flex-direction: column;
+}
+
+.discovery__search input {
+  width: 200px;
+}
+
+.discovery__wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.discovery__results li {
+  color: #00B7FF;
+  margin: 10px;
+  padding: 5px 10px;
+  border: 1px solid #666666;
+  background-color: #dddddd;
+  list-style: none;
+}
+
+.discovery__map {
+  display: flex;
+  margin: 10px 10px 25px 10px;
+  flex-direction: column;
+}
+
 
 
 /* ### TODO ### Styles for Footer Component */
 
 /* ... your code here ... */
-
+.footer {
+  padding: 15px;
+  background-color: #dddddd;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+}
 
 /* ### TODO ### Media Queries */
 
 /* ... your code here ... */
+@media screen and (max-width: 1050px) {
+
+  [class *= "col-"] {
+    width: 100%;
+  }
+  .main .row {
+    flex-direction: column;
+  }
+  .discovery__wrapper {
+    flex-direction: column;
+  }
+  .discovery__search input {
+    width: calc(100% - 10px);
+  }
+
+}

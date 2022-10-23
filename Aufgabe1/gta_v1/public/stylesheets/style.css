@@ -136,7 +136,10 @@ fieldset {
 .header{
   background-color: #dddddd;
   padding: 40px;
-  clear: both;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 .header__image {
   height: 50px;
@@ -223,12 +226,15 @@ fieldset {
 /* ### TODO ### Media Queries */
 
 /* ... your code here ... */
-@media screen and (max-width: 1050px) {
+@media screen and (max-width: 1000px) {
 
   [class *= "col-"] {
     width: 100%;
   }
-  .main .row {
+  .main {
+    flex-direction: column;
+  }
+  .header {
     flex-direction: column;
   }
   .discovery__wrapper {

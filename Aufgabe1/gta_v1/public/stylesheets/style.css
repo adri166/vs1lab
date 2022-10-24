@@ -229,7 +229,7 @@ fieldset {
 @media screen and (max-width: 1000px) {
 
   [class *= "col-"] {
-    width: 100%;
+    width: calc(100% - 2rem);
   }
   .main {
     flex-direction: column;
@@ -242,6 +242,18 @@ fieldset {
   }
   .discovery__search input {
     width: calc(100% - 10px);
+  }
+  .discovery__map {
+    width: calc(100%);
+    margin: 0px 0px 0px 0px;
+  }
+
+  .discovery__taglist {
+    width: calc(100%);
+  }
+
+  .discovery__results {
+    padding: 5px 0px;
   }
 
 }

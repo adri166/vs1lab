@@ -250,10 +250,12 @@ fieldset {
 
   .discovery__taglist {
     width: calc(100%);
+    padding: 5px 0px;
+    margin: 0px;
   }
 
-  .discovery__results {
-    padding: 5px 0px;
+  .discovery__results li{
+    margin: 10px 0px 10px 0px;
   }
 
 }

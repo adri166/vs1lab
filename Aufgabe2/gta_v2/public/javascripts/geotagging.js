@@ -10,6 +10,17 @@
 console.log("The geoTagging script is going to start...");
 
 /**
+ * Set the location by the given LocationHelper object.
+ * Additionally print new coordinates to the console-log.
+ * @param LocationHelper locationHelper a LocationHelper object
+ */
+function setLocation(locationHelper) {
+    console.log(`updated lat[${locationHelper.latitude}]  lon[[${locationHelper.longitude}]`);
+    document.getElementById("latitude") . value = locationHelper.latitude;
+    document.getElementById("longitude") . value = locationHelper.longitude;
+}
+
+/**
  * A class to help using the HTML5 Geolocation API.
  */
 class LocationHelper {
@@ -106,5 +117,5 @@ class MapManager {
 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
-    alert("Please change the script 'geotagging.js'");
+    LocationHelper.findLocation(setLocation);
 });

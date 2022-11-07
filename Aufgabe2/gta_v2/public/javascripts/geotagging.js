@@ -14,10 +14,19 @@ console.log("The geoTagging script is going to start...");
  * Additionally print new coordinates to the console-log.
  * @param LocationHelper locationHelper a LocationHelper object
  */
-function setLocation(locationHelper) {
+function updateLocation(locationHelper) {
     console.log(`updated lat[${locationHelper.latitude}]  lon[[${locationHelper.longitude}]`);
     document.getElementById("latitude") . value = locationHelper.latitude;
     document.getElementById("longitude") . value = locationHelper.longitude;
+
+    document.getElementById("searchLatitude") . value = locationHelper.latitude;
+    document.getElementById("searchLongitude") . value = locationHelper.longitude;
+
+    mm = new MapManager('3qE6hTnfkG4AwMPpgnCpyHG7NaHyxOi9');
+    mapURL = mm.getMapUrl(locationHelper.latitude, locationHelper.longitude);
+
+    document.getElementById("mapView") . src = mapURL;
+
 }
 
 /**
@@ -74,7 +83,7 @@ class LocationHelper {
  * A class to help using the MapQuest map service.
  */
 class MapManager {
-    #apiKey = '3qE6hTnfkG4AwMPpgnCpyHG7NaHyxOi9';
+    #apiKey = '';
 
     /**
      * Create a new MapManager instance.
@@ -117,5 +126,5 @@ class MapManager {
 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
-    LocationHelper.findLocation(setLocation);
+    LocationHelper.findLocation(updateLocation);
 });

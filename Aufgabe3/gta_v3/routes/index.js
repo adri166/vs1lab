@@ -30,6 +30,7 @@ const GeoTag = require('../models/geotag');
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
+let foo = new GeoTagStore();
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -60,7 +61,9 @@ router.get('/', (req, res) => {
  * by radius around a given location.
  */
 
-// TODO: ... your code here ...
+ router.get('/tagging', (req, res) => {
+  
+});
 
 /**
  * Route '/discovery' for HTTP 'POST' requests.

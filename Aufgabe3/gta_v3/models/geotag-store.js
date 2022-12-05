@@ -23,9 +23,68 @@
  * - The proximity constrained is the same as for 'getNearbyGeoTags'.
  * - Keyword matching should include partial matches from name or hashtag fields. 
  */
+
+const GeoTag = require('./geotag');
+const GeoTagExamples = require('./geotag-examples');
+
 class InMemoryGeoTagStore{
 
-    // TODO: ... your code here ...
+    #geoTags;
+
+ 
+    constructor() {
+        this.#geoTags = [];
+
+        let tmp = GeoTagExamples.tagList;
+        
+        tmp.forEach(function (element) {
+            let tmp_tag = new GeoTag(element[0], element[1], element[2], element[3]);
+            console.log(this.#geoTags);
+            this.addGeoTag(tmp_tag);
+        });
+      }
+
+    addGeoTag(tag) {
+        console.log(tag)
+        //this.#geoTags.push(tag);
+    }
+    removeGeoTag(tag) {
+        this.#geoTags.forEach(function (value, i) {
+            if(value.name == tag.name){
+                this.#geoTags.splice(i, 1);
+            }
+        });
+    }
+
+
+    getNearbyGeoTags(longitude, latitude, radius) {
+        let result = [];
+
+        this.#geoTags.forEach(function (tag) {
+            let dx = 71.5 * (tag.longitude - longitude);
+            let dy = 111.3 * (tag.latitude - latitude);
+            let distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance <= radius) {
+                result.push(GeoTag);
+            }
+        })
+
+        return result;
+    }
+
+    searchNearbyGeoTags(longitude, latitude, radius, name) {
+        let result = [];
+        result = this.getNearbyGeoTags(longitude, latitude, radius);
+
+        result = result.filter(function (key) {
+                if (key.name.includes(name) || key.tag.includes(name)) {
+                    return key;
+                }
+            });
+
+        
+    }
 
 }
 

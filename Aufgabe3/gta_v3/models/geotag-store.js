@@ -30,18 +30,22 @@ const GeoTagExamples = require('./geotag-examples');
 class InMemoryGeoTagStore{
 
     #geoTags;
-
  
     constructor() {
-        this.#geoTags = [];
-
+        // load Examples
         let tmp = GeoTagExamples.tagList;
+
+        // empty array to convert examples
+        let tmp_geoTags = [];
         
+        // convert example arr. to GeoTag type and add to tmp_geoTags
         tmp.forEach(function (element) {
             let tmp_tag = new GeoTag(element[0], element[1], element[2], element[3]);
-            console.log(this.#geoTags);
-            this.addGeoTag(tmp_tag);
+            tmp_geoTags.push(tmp_tag)
         });
+
+        // set privte var with tmp var
+        this.#geoTags = tmp_geoTags;
       }
 
     addGeoTag(tag) {

@@ -49,9 +49,9 @@ class InMemoryGeoTagStore{
       }
 
     addGeoTag(tag) {
-        console.log(tag)
-        //this.#geoTags.push(tag);
+        this.#geoTags.push(tag);
     }
+
     removeGeoTag(tag) {
         this.#geoTags.forEach(function (value, i) {
             if(value.name == tag.name){
@@ -59,7 +59,6 @@ class InMemoryGeoTagStore{
             }
         });
     }
-
 
     getNearbyGeoTags(longitude, latitude, radius) {
         let result = [];
@@ -70,7 +69,7 @@ class InMemoryGeoTagStore{
             let distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance <= radius) {
-                result.push(GeoTag);
+                result.push(tag);
             }
         })
 

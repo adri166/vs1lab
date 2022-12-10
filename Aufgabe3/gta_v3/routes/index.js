@@ -17,7 +17,7 @@ const router = express.Router();
  * The module "geotag" exports a class GeoTagStore. 
  * It represents geotags.
  * 
- * TODO: implement the module in the file "../models/geotag.js"
+ * DONE: implement the module in the file "../models/geotag.js"
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTag = require('../models/geotag');
@@ -30,7 +30,7 @@ const GeoTag = require('../models/geotag');
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
-let foo = new GeoTagStore();
+let tagStore = new GeoTagStore();
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -43,7 +43,8 @@ let foo = new GeoTagStore();
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  foo = tagStore.getNearbyGeoTags(49.13780, 8.53290, 20)
+  res.render('index', { taglist: foo })
 });
 
 /**
@@ -61,8 +62,10 @@ router.get('/', (req, res) => {
  * by radius around a given location.
  */
 
- router.get('/tagging', (req, res) => {
-  
+
+
+router.post('/tagging', function(req, res){
+  console.log("")
 });
 
 /**
@@ -81,6 +84,8 @@ router.get('/', (req, res) => {
  * by radius and keyword.
  */
 
-// TODO: ... your code here ...
+ router.post('/discovery', (req, res) => {
+  console.log("")
+});
 
 module.exports = router;

@@ -40,7 +40,7 @@ class InMemoryGeoTagStore{
         
         // convert example arr. to GeoTag type and add to tmp_geoTags
         tmp.forEach(function (element) {
-            let tmp_tag = new GeoTag(element[0], element[1], element[2], element[3]);
+            let tmp_tag = new GeoTag(element[0], element[2], element[1], element[3]);
             tmp_geoTags.push(tmp_tag)
         });
 

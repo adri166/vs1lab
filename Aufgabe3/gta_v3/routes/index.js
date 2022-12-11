@@ -65,7 +65,14 @@ router.get('/', (req, res) => {
 
 
 router.post('/tagging', function(req, res){
-  console.log("")
+  let name = req.body.name;
+  let long = req.body.longitude;
+  let lat = req.body.latitude;
+  let tag = req.body.hashtag;
+  
+  tagStore.addGeoTag(new GeoTag(name, long, lat, tag));
+  list = foo = tagStore.getNearbyGeoTags(long, lat, 20);
+  res.render('index', { taglist: list });
 });
 
 /**

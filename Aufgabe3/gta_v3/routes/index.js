@@ -92,7 +92,12 @@ router.post('/tagging', function(req, res){
  */
 
  router.post('/discovery', (req, res) => {
-  console.log("")
+  let searchterm = req.body.searchterm;
+  let long = req.body.longitude;
+  let lat = req.body.latitude;
+
+  list = tagStore.searchNearbyGeoTags(long, lat, 20, searchterm);
+  res.render('index', { taglist: list });
 });
 
 module.exports = router;

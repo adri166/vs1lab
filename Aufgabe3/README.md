@@ -134,15 +134,15 @@ Zur Übersicht folgen noch mal alle Anforderungen in kompakter Form als Checklis
 
 - [x] **Server Konfiguration und Routen** fertigstellen
   - [x] **Statische Dateien** bereitstellen (`./app.js`)
-  - [ ] Route `/tagging` zur **GeoTags Speicherung** erstellen. (`./routes/index.js`)
-  - [ ] Route `/discovery` zur **GeoTag Abfrage** erstellen. (`./routes/index.js`)
+  - [x] Route `/tagging` zur **GeoTags Speicherung** erstellen. (`./routes/index.js`)
+  - [x] Route `/discovery` zur **GeoTag Abfrage** erstellen. (`./routes/index.js`)
 
 - [ ] Server **Template** erweitern (`./views/index.ejs`)
   - [ ] Koordinaten in Formulare eintragen
 
 ### 2. Teilaufgabe: Client-Anpassung
 
-- [ ] Teil A: `MapManager` und `LocationHelper` **Klassen in eigene Skripte auslagern** (`./public/javascripts/geotagging.js`)
+- [x] Teil A: `MapManager` und `LocationHelper` **Klassen in eigene Skripte auslagern** (`./public/javascripts/geotagging.js`)
 - [ ] Teil B:  `updateLocation`-Funktion **optimieren**
   - [ ] Auslesen von Formularfeldern mit Koordinaten
   - [ ] Bedingte Ausführung von `LocationHelper.findLocation()`

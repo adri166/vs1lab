@@ -161,6 +161,7 @@ fieldset {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-bottom: 30px;
 }
 
 /* ### TODO ### Styles for Tagging component */

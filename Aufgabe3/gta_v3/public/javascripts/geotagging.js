@@ -41,6 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!(lat != "" || lon != "")) {
         LocationHelper.findLocation(updateLocation);
     }
-    else {new LocationHelper(lat, lon);}
+    else {updateLocation(new LocationHelper(lat, lon));}
     
 });

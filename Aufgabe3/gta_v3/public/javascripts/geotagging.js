@@ -35,5 +35,12 @@ function updateLocation(locationHelper) {
  */
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
-    LocationHelper.findLocation(updateLocation);
+    let lat = document.getElementById("latitude") . value;
+    let lon =  document.getElementById("longitude") . value;
+
+    if (!(lat != "" && lon != "")) {
+        LocationHelper.findLocation(updateLocation);
+    }
+    else {new LocationHelper(lat, lon);}
+    
 });

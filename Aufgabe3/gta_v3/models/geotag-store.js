@@ -81,12 +81,12 @@ class InMemoryGeoTagStore{
         result = this.getNearbyGeoTags(longitude, latitude, radius);
 
         result = result.filter(function (key) {
-                if (key.name.includes(name) || key.tag.includes(name)) {
+                if (key.name.toLowerCase().includes(name.toLowerCase()) || key.tag.toLowerCase().includes(name.toLowerCase())) {
                     return key;
                 }
             });
 
-        
+        return result;
     }
 
 }

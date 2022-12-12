@@ -30,13 +30,13 @@
                 <fieldset>
                     <legend>Add a new location</legend>
                     <label for="latitude">Latitude</label>
-                    <input id="latitude" type="number" value="NOT SET" readonly/>
+                    <input name="latitude" id="latitude" type="number" value="NOT SET" readonly/>
                     <label for="longitude">Longitude</label>
-                    <input id="longitude" type="number" value="NOT SET" readonly/>
+                    <input name="longitude" id="longitude" type="number" value="NOT SET" readonly/>
                     <label for="name">Name</label>
-                    <input id="name" maxlength="10" placeholder="e.g. Cafeteria Moltkestrasse" required/>
+                    <input name="name" id="name" maxlength="10" placeholder="e.g. Cafeteria Moltkestrasse" required/>
                     <label for="hashtag">Hashtag</label>
-                    <input id="hashtag" maxlength="11" placeholder="e.g. #HKA" pattern="#[a-zA-Z0-9]+"/>
+                    <input name="hashtag" id="hashtag" maxlength="11" placeholder="e.g. #HKA" pattern="#[a-zA-Z0-9]+"/>
                     <input type="submit" id="addButton" value="Add Tag"/>
                 </fieldset>
             </form>
@@ -52,9 +52,9 @@
                 <fieldset>
                     <legend>Search</legend>
                     <label for="searchterm">Search term or keywords:</label>
-                    <input id="searchterm" placeholder="Type in your search here..."/>
-                    <input type="hidden" id="searchLatitude"/>
-                    <input type="hidden" id="searchLongitude"/>
+                    <input name="searchterm" id="searchterm" placeholder="Type in your search here..."/>
+                    <input name="latitude" type="hidden" id="searchLatitude"/>
+                    <input name="longitude" type="hidden" id="searchLongitude"/>
                     <input type="submit" id="searchButton" value="Search">
                 </fieldset>
             </form>
@@ -64,7 +64,7 @@
                 <div class="discovery__taglist col-4">
                     <ul class="discovery__results" id="discoveryResults">
                         <% if (taglist !== undefined) taglist.forEach(function(gtag) { %>
-                            <li><%= gtag.name %> ( <%= gtag.latitude %>,<%= gtag.longitude %>) <%= gtag.hashtag %> </li>
+                            <li><%= gtag.name %> ( <%= gtag.latitude %>,<%= gtag.longitude %>) <%= gtag.tag %> </li>
                         <% }); %>
                     </ul>
                 </div>

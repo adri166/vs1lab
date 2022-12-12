@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let lat = document.getElementById("latitude") . value;
     let lon =  document.getElementById("longitude") . value;
 
-    if (!(lat != "" && lon != "")) {
+    if (!(lat != "" || lon != "")) {
         LocationHelper.findLocation(updateLocation);
     }
     else {new LocationHelper(lat, lon);}

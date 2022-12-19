@@ -53,8 +53,8 @@
                     <legend>Search</legend>
                     <label for="searchterm">Search term or keywords:</label>
                     <input name="searchterm" id="searchterm" placeholder="Type in your search here..."/>
-                    <input name="latitude" type="hidden" id="searchLatitude"/>
-                    <input name="longitude" type="hidden" id="searchLongitude"/>
+                    <input name="latitude" type="hidden" id="searchLatitude" value="<%= lat %>"/>
+                    <input name="longitude" type="hidden" id="searchLongitude" value="<%= lon %>"/>
                     <input type="submit" id="searchButton" value="Search">
                 </fieldset>
             </form>

@@ -66,7 +66,6 @@ router.get('/', (req, res) => {
 
 
 router.post('/tagging', function(req, res){
-  console.log(req.body);
   let name = req.body.name;
   let long = req.body.longitude;
   let lat = req.body.latitude;
@@ -97,11 +96,9 @@ router.post('/tagging', function(req, res){
  */
 
  router.post('/discovery', (req, res) => {
-  console.log(req.body);
   let searchterm = req.body.searchterm;
   let long = req.body.longitude;
   let lat = req.body.latitude;
-  console.log(lat);
 
   saved_lat = lat;
   saved_lon = long;

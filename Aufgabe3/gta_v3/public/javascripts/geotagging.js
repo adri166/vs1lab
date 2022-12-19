@@ -22,7 +22,7 @@ function updateLocation(locationHelper) {
     document.getElementById("searchLatitude") . value = locationHelper.latitude;
     document.getElementById("searchLongitude") . value = locationHelper.longitude;
 
-    taglist_json = JSON.parse(document.getElementById("mapView").getAttribute("data-tags"));
+    taglist_json = JSON.parse(decodeURIComponent(document.getElementById("mapView").getAttribute("data-tags")));
 
     mm = new MapManager('3qE6hTnfkG4AwMPpgnCpyHG7NaHyxOi9');
     mapURL = mm.getMapUrl(locationHelper.latitude, locationHelper.longitude, taglist_json);

@@ -26,6 +26,9 @@ const GeoTag = require('../models/geotag');
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
+let tagStore = new GeoTagStore();
+let saved_lat = null;
+let saved_lon = null;
 
 // App routes (A3)
 
@@ -38,8 +41,67 @@ const GeoTagStore = require('../models/geotag-store');
  * As response, the ejs-template is rendered without geotag objects.
  */
 
-router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+ router.get('/', (req, res) => {
+  res.render('index', { taglist: [] , lat: saved_lat, lon: saved_lon})
+});
+
+/**
+ * Route '/tagging' for HTTP 'POST' requests.
+ * (http://expressjs.com/de/4x/api.html#app.post.method)
+ *
+ * Requests cary the fields of the tagging form in the body.
+ * (http://expressjs.com/de/4x/api.html#req.body)
+ *
+ * Based on the form data, a new geotag is created and stored.
+ *
+ * As response, the ejs-template is rendered with geotag objects.
+ * All result objects are located in the proximity of the new geotag.
+ * To this end, "GeoTagStore" provides a method to search geotags 
+ * by radius around a given location.
+ */
+
+
+
+ router.post('/tagging', function(req, res){
+  let name = req.body.name;
+  let long = req.body.longitude;
+  let lat = req.body.latitude;
+  let tag = req.body.hashtag;
+
+  saved_lat = lat;
+  saved_lon = long;
+
+  tagStore.addGeoTag(new GeoTag(name, long, lat, tag));
+  list = tagStore.getNearbyGeoTags(long, lat, 20);
+  res.render('index', { taglist: list, lat: saved_lat, lon: saved_lon});
+});
+
+/**
+ * Route '/discovery' for HTTP 'POST' requests.
+ * (http://expressjs.com/de/4x/api.html#app.post.method)
+ *
+ * Requests cary the fields of the discovery form in the body.
+ * This includes coordinates and an optional search term.
+ * (http://expressjs.com/de/4x/api.html#req.body)
+ *
+ * As response, the ejs-template is rendered with geotag objects.
+ * All result objects are located in the proximity of the given coordinates.
+ * If a search term is given, the results are further filtered to contain 
+ * the term as a part of their names or hashtags. 
+ * To this end, "GeoTagStore" provides methods to search geotags 
+ * by radius and keyword.
+ */
+
+ router.post('/discovery', (req, res) => {
+  let searchterm = req.body.searchterm;
+  let long = req.body.longitude;
+  let lat = req.body.latitude;
+
+  saved_lat = lat;
+  saved_lon = long;
+
+  list = tagStore.searchNearbyGeoTags(long, lat, 20, searchterm);
+  res.render('index', { taglist: list, lat: saved_lat, lon: saved_lon});
 });
 
 // API routes (A4)

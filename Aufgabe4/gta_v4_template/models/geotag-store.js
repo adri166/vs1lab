@@ -107,6 +107,22 @@ class InMemoryGeoTagStore{
             return this.#geoTagsMap.get(id)
         }
     }
+
+    getGeotags() {
+        return this.#geoTags;
+    }
+
+    searchGeoTags(name) {
+        let result = this.#geoTags;
+        result = result.filter(function (key) {
+            if (key.name.toLowerCase().includes(name.toLowerCase()) || key.tag.toLowerCase().includes(name.toLowerCase())) {
+                return key;
+            }
+        });
+
+    return result;
+    }
+
 }
 
 module.exports = InMemoryGeoTagStore

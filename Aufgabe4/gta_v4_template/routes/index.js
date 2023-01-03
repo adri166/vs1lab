@@ -126,7 +126,7 @@ let saved_lon = null;
   if(searchterm != "" && long != "" && lat != "") {
     list = tagStore.getNearbyGeoTags(long, lat, 20, searchterm);
   } else if(searchterm != "") {
-    list = tagStore.searchNearbyGeoTags(searchterm);
+    list = tagStore.searchGeoTags(searchterm);
   } else {
     list = tagStore.getGeotags();
   }

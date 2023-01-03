@@ -118,7 +118,7 @@ let saved_lon = null;
  * If 'latitude' and 'longitude' are available, it will be further filtered based on radius.
  */
 
- app.get('/api/geotags', function (req, res) {
+ router.get('/api/geotags', function (req, res) {
   let searchterm = req.body.searchterm;
   let long = req.body.longitude;
   let lat = req.body.latitude;
@@ -146,7 +146,7 @@ let saved_lon = null;
  */
 
 
- app.post('/api/geotags', function (req, res) {
+router.post('/api/geotags', function (req, res) {
   let tag = req.body.tag;
   // TODO: ... your code here ...
 })
@@ -162,7 +162,7 @@ let saved_lon = null;
  * The requested tag is rendered as JSON in the response.
  */
 
- app.get('/api/geotags/:id', function (req, res) {
+router.get('/api/geotags/:id', function (req, res) {
   let id = req.params.id;
   tag = tagStore.getGeoTagByID(id);
   //TODO response
@@ -183,7 +183,7 @@ let saved_lon = null;
  * The updated resource is rendered as JSON in the response. 
  */
 
- app.put('/api/geotags/:id', function (req, res) {
+router.put('/api/geotags/:id', function (req, res) {
   let id = req.params.id;
   let tag = req.body.tag;
   //TODO
@@ -201,7 +201,7 @@ let saved_lon = null;
  * The deleted resource is rendered as JSON in the response.
  */
 
- app.delete('/api/geotags/:id', function (req, res) {
+router.delete('/api/geotags/:id', function (req, res) {
   let id = req.params.id;
   tag = tagStore.getGeoTagByID(id);
   tagStore.removeGeoTag(id);

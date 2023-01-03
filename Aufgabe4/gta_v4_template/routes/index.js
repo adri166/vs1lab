@@ -120,8 +120,11 @@ let saved_lon = null;
 
  router.get('/api/geotags', function (req, res) {
   let searchterm = req.body.searchterm;
+  if (typeof searchterm == 'undefined') {searchterm = "";}
   let long = req.body.longitude;
+  if (typeof long == 'undefined') {long = "";}
   let lat = req.body.latitude;
+  if (typeof lat == 'undefined') {lat = "";}
 
   if(searchterm != "" && long != "" && lat != "") {
     list = tagStore.getNearbyGeoTags(long, lat, 20, searchterm);
@@ -146,7 +149,7 @@ let saved_lon = null;
  */
 
 
- app.post('/api/geotags', function (req, res) {
+ router.post('/api/geotags', function (req, res) {
   let name = req.body.name;
   let long = req.body.longitude;
   let lat = req.body.latitude;

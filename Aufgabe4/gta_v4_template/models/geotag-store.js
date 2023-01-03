@@ -109,11 +109,11 @@ class InMemoryGeoTagStore{
     }
 
     getGeotags() {
-        return this.#geoTags;
+        return Array.from(this.#geoTagsMap.values());
     }
 
     searchGeoTags(name) {
-        let result = this.#geoTags;
+        let result = this.getGeotags();
         result = result.filter(function (key) {
             if (key.name.toLowerCase().includes(name.toLowerCase()) || key.tag.toLowerCase().includes(name.toLowerCase())) {
                 return key;

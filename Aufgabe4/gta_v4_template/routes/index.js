@@ -118,7 +118,20 @@ let saved_lon = null;
  * If 'latitude' and 'longitude' are available, it will be further filtered based on radius.
  */
 
-// TODO: ... your code here ...
+ app.get('/api/geotags', function (req, res) {
+  let searchterm = req.body.searchterm;
+  let long = req.body.longitude;
+  let lat = req.body.latitude;
+
+  if(searchterm != null && long != null && lat != null) {
+    list = tagStore.getNearbyGeoTags(long, lat, 20);
+  } else if(searchterm != null) {
+    //TODO Search ohne nearby oder radius maximal
+  } else {
+    //TODO all Geotags
+  }
+  //TODO response rendern
+})
 
 
 /**
@@ -132,7 +145,11 @@ let saved_lon = null;
  * The new resource is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+
+ app.post('/api/geotags', function (req, res) {
+  let tag = req.body.tag;
+  // TODO: ... your code here ...
+})
 
 
 /**
@@ -145,7 +162,11 @@ let saved_lon = null;
  * The requested tag is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+ app.get('/api/geotags/:id', function (req, res) {
+  let id = req.params.id;
+  tag = tagStore.getGeoTagByID(id);
+  //TODO response
+})
 
 
 /**
@@ -162,7 +183,11 @@ let saved_lon = null;
  * The updated resource is rendered as JSON in the response. 
  */
 
-// TODO: ... your code here ...
+ app.put('/api/geotags/:id', function (req, res) {
+  let id = req.params.id;
+  let tag = req.body.tag;
+  //TODO
+})
 
 
 /**
@@ -176,6 +201,11 @@ let saved_lon = null;
  * The deleted resource is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+ app.delete('/api/geotags/:id', function (req, res) {
+  let id = req.params.id;
+  tag = tagStore.getGeoTagByID(id);
+  tagStore.removeGeoTag(id);
+  //TODO response
+})
 
 module.exports = router;

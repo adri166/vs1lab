@@ -89,6 +89,12 @@ class InMemoryGeoTagStore{
         return result;
     }
 
+    getGeoTagByID(id) {
+        //TODO
+    }
+
+    
+
 }
 
 module.exports = InMemoryGeoTagStore

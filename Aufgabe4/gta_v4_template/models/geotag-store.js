@@ -27,9 +27,24 @@
 const GeoTag = require('./geotag');
 const GeoTagExamples = require('./geotag-examples');
 
+function createTagID(tag) {
+    let tag_str = tag.longitude + "_" + tag.latitude + "_" + tag.name + "_" + tag.tag
+    //set variable hash as 0
+    var hash = 0;
+    // if the length of the string is 0, return 0
+    if (tag_str.length == 0) return hash;
+    for (let i = 0 ;i<tag_str.length ; i++)
+    {
+        let ch = tag_str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + ch;
+        hash = hash & hash;
+    }
+    return hash;
+}
+
 class InMemoryGeoTagStore{
 
-    #geoTags;
+    #geoTagsMap;
  
     constructor() {
         // load Examples
@@ -37,33 +52,31 @@ class InMemoryGeoTagStore{
 
         // empty array to convert examples
         let tmp_geoTags = [];
+        let tmp_geoTagsMap = new Map();
         
         // convert example arr. to GeoTag type and add to tmp_geoTags
         tmp.forEach(function (element) {
             let tmp_tag = new GeoTag(element[0], element[2], element[1], element[3]);
-            tmp_geoTags.push(tmp_tag)
+            tmp_geoTags.push(tmp_tag);
+            tmp_geoTagsMap.set(createTagID(tmp_tag), tmp_tag);
         });
 
         // set privte var with tmp var
-        this.#geoTags = tmp_geoTags;
+        this.#geoTagsMap = tmp_geoTagsMap;  
       }
 
     addGeoTag(tag) {
-        this.#geoTags.push(tag);
+        this.#geoTagsMap.set(createTagID(tag), tag);
     }
 
     removeGeoTag(tag) {
-        this.#geoTags.forEach(function (value, i) {
-            if(value.name == tag.name){
-                this.#geoTags.splice(i, 1);
-            }
-        });
+        this.#geoTagsMap.delete(createTagID(tag))
     }
 
     getNearbyGeoTags(longitude, latitude, radius) {
         let result = [];
 
-        this.#geoTags.forEach(function (tag) {
+        this.#geoTagsMap.forEach((tag)=>{
             let dx = 71.5 * (tag.longitude - longitude);
             let dy = 111.3 * (tag.latitude - latitude);
             let distance = Math.sqrt(dx * dx + dy * dy);
@@ -71,7 +84,7 @@ class InMemoryGeoTagStore{
             if (distance <= radius) {
                 result.push(tag);
             }
-        })
+          })
 
         return result;
     }
@@ -90,11 +103,10 @@ class InMemoryGeoTagStore{
     }
 
     getGeoTagByID(id) {
-        //TODO
+        if (this.#geoTagsMap.get(id)) {
+            return this.#geoTagsMap.get(id)
+        }
     }
-
-    
-
 }
 
 module.exports = InMemoryGeoTagStore

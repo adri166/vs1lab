@@ -66,11 +66,13 @@ class InMemoryGeoTagStore{
       }
 
     addGeoTag(tag) {
-        this.#geoTagsMap.set(createTagID(tag), tag);
+        id = createTagID(tag);
+        this.#geoTagsMap.set(id, tag);
+        return id;
     }
 
-    removeGeoTag(tag) {
-        this.#geoTagsMap.delete(createTagID(tag))
+    removeGeoTag(id) {
+        this.#geoTagsMap.delete(id);
     }
 
     getNearbyGeoTags(longitude, latitude, radius) {
@@ -121,6 +123,14 @@ class InMemoryGeoTagStore{
         });
 
     return result;
+    }
+
+    updateGeoTagByID(id, name, long, lat, tag) {
+        if (this.#geoTagsMap.get(id)) {
+            newTag = new GeoTag(name, long, lat, tag);
+            this.#geoTagsMap.set(id, newTag);
+            return newTag;
+        }
     }
 
 }

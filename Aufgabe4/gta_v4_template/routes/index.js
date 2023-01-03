@@ -123,12 +123,12 @@ let saved_lon = null;
   let long = req.body.longitude;
   let lat = req.body.latitude;
 
-  if(searchterm != null && long != null && lat != null) {
+  if(searchterm != "" && long != "" && lat != "") {
     list = tagStore.getNearbyGeoTags(long, lat, 20, searchterm);
-  } else if(searchterm != null) {
+  } else if(searchterm != "") {
     list = tagStore.searchNearbyGeoTags(searchterm);
   } else {
-    list = tagStore.getNearbyGeoTags();
+    list = tagStore.getGeotags();
   }
   res.json(list);
 })
@@ -146,9 +146,16 @@ let saved_lon = null;
  */
 
 
-router.post('/api/geotags', function (req, res) {
-  let tag = req.body.tag;
-  // TODO: ... your code here ...
+ app.post('/api/geotags', function (req, res) {
+  let name = req.body.name;
+  let long = req.body.longitude;
+  let lat = req.body.latitude;
+  let tag = req.body.hashtag;
+
+  geoTag = new GeoTag(name, long, lat, tag);
+
+  id = tagStore.addGeoTag(geoTag);
+  res.location('api/geoTags/' + id).status(201).json(geoTag);
 })
 
 

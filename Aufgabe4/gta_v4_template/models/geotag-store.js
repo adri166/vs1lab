@@ -93,7 +93,20 @@ class InMemoryGeoTagStore{
         //TODO
     }
 
-    
+    getGeotags() {
+        return this.#geoTags;
+    }
+
+    searchGeoTags(name) {
+        let result = this.#geoTags;
+        result = result.filter(function (key) {
+            if (key.name.toLowerCase().includes(name.toLowerCase()) || key.tag.toLowerCase().includes(name.toLowerCase())) {
+                return key;
+            }
+        });
+
+    return result;
+    }
 
 }
 

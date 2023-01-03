@@ -127,10 +127,12 @@ let saved_lon = null;
     list = tagStore.getNearbyGeoTags(long, lat, 20);
   } else if(searchterm != null) {
     //TODO Search ohne nearby oder radius maximal
+    list = tagStore.searchNearbyGeoTags(searchterm);
   } else {
     //TODO all Geotags
+    list = tagStore.getNearbyGeoTags();
   }
-  //TODO response rendern
+  res.json(list);
 })
 
 
@@ -165,7 +167,7 @@ let saved_lon = null;
  app.get('/api/geotags/:id', function (req, res) {
   let id = req.params.id;
   tag = tagStore.getGeoTagByID(id);
-  //TODO response
+  res.json(tag);
 })
 
 
@@ -205,7 +207,7 @@ let saved_lon = null;
   let id = req.params.id;
   tag = tagStore.getGeoTagByID(id);
   tagStore.removeGeoTag(id);
-  //TODO response
+  res.json(tag);
 })
 
 module.exports = router;

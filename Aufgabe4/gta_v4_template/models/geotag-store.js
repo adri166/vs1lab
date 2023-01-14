@@ -120,13 +120,13 @@ class InMemoryGeoTagStore{
 
     updateGeoTagByID(id, name, long, lat, tag) {
         if (this.#geoTagsMap.get(id)) {
-            updatedTag = this.#geoTagsMap.get(id);
+            let updatedTag = this.#geoTagsMap.get(id);
             updatedTag.name = name;
             updatedTag.longitude = long;
             updatedTag.latitude = lat;
             updatedTag.tag = tag;
             this.#geoTagsMap.set(id, updatedTag);
-            return newTag;
+            return updatedTag;
         }
     }
 

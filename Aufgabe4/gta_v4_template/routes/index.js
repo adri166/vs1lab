@@ -176,7 +176,12 @@ let saved_lon = null;
 router.get('/api/geotags/:id', function (req, res) {
   let id = parseInt(req.params.id);
   tag = tagStore.getGeoTagByID(id);
-  res.status(200).json(tag);
+  if (typeof tag == 'undefined') {
+    res.status(204).json(tag);
+  }
+  else{
+    res.status(200).json(tag);
+  }
 })
 
 
@@ -202,7 +207,12 @@ router.put('/api/geotags/:id', function (req, res) {
   let tag = req.body.hashtag;
 
   geoTag = tagStore.updateGeoTagByID(id, name, long, lat, tag);
-  res.status(200).json(geoTag);
+  if (typeof geoTag == 'undefined') {
+    res.status(204).json(geoTag);
+  }
+  else{
+    res.status(200).json(geoTag);
+  }
 })
 
 
@@ -218,10 +228,16 @@ router.put('/api/geotags/:id', function (req, res) {
  */
 
 router.delete('/api/geotags/:id', function (req, res) {
-  let id = req.params.id;
+  let id = parseInt(req.params.id);
   tag = tagStore.getGeoTagByID(id);
-  tagStore.removeGeoTag(id);
-  res.status(200).json(tag);
+  if (typeof tag == 'undefined') {
+    res.status(204).json(tag);
+  }
+  else{
+    tagStore.removeGeoTag(id);
+    res.status(200).json(tag);
+  }
+  
 })
 
 module.exports = router;

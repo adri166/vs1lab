@@ -119,15 +119,15 @@ let saved_lon = null;
  */
 
  router.get('/api/geotags', function (req, res) {
-  let searchterm = req.body.searchterm;
+  let searchterm = req.query.search;
   if (typeof searchterm == 'undefined') {searchterm = "";}
-  let long = req.body.longitude;
+  let long = req.query.longitude;
   if (typeof long == 'undefined') {long = "";}
-  let lat = req.body.latitude;
+  let lat = req.query.latitude;
   if (typeof lat == 'undefined') {lat = "";}
 
   if(searchterm != "" && long != "" && lat != "") {
-    list = tagStore.getNearbyGeoTags(long, lat, 20, searchterm);
+    list = tagStore.searchNearbyGeoTags(long, lat, 20, searchterm);
   } else if(searchterm != "") {
     list = tagStore.searchGeoTags(searchterm);
   } else {

@@ -171,7 +171,7 @@ let saved_lon = null;
  */
 
 router.get('/api/geotags/:id', function (req, res) {
-  let id = req.params.id;
+  let id = parseInt(req.params.id);
   tag = tagStore.getGeoTagByID(id);
   res.json(tag);
 })
@@ -192,7 +192,7 @@ router.get('/api/geotags/:id', function (req, res) {
  */
 
 router.put('/api/geotags/:id', function (req, res) {
-  let id = req.params.id;
+  let id = parseInt(req.params.id);
   let name = req.body.name;
   let long = req.body.longitude;
   let lat = req.body.latitude;

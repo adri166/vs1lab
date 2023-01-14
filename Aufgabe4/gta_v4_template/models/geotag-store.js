@@ -57,7 +57,7 @@ class InMemoryGeoTagStore{
       }
 
     addGeoTag(name, long, lat, hashtag) {
-        id = this.#idCounter;
+        let id = this.#idCounter;
         this.#idCounter += 1;
         let tag = new GeoTag(name, long, lat, hashtag, id)
         this.#geoTagsMap.set(id, tag);

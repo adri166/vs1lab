@@ -155,8 +155,9 @@ let saved_lon = null;
   let lat = req.body.latitude;
   let tag = req.body.hashtag;
 
-  id = tagStore.addGeoTag(name, long, lat, tag);
-  res.location('api/geoTags/' + id).status(201).json(geoTag);
+  let id = tagStore.addGeoTag(name, long, lat, tag);
+  let newTag = tagStore.getGeoTagByID(id);
+  res.location('api/geoTags/' + id).status(201).json(newTag);
 })
 
 

@@ -151,8 +151,8 @@ let saved_lon = null;
 
  router.post('/api/geotags', function (req, res) {
   let name = req.body.name;
-  let long = req.body.longitude;
-  let lat = req.body.latitude;
+  let long = parseFloat(req.body.longitude);
+  let lat = parseFloat(req.body.latitude);
   let tag = req.body.hashtag;
 
   let id = tagStore.addGeoTag(name, long, lat, tag);
@@ -195,8 +195,8 @@ router.get('/api/geotags/:id', function (req, res) {
 router.put('/api/geotags/:id', function (req, res) {
   let id = parseInt(req.params.id);
   let name = req.body.name;
-  let long = req.body.longitude;
-  let lat = req.body.latitude;
+  let long = parseFloat(req.body.longitude);
+  let lat = parseFloat(req.body.latitude);
   let tag = req.body.hashtag;
 
   geoTag = tagStore.updateGeoTagByID(id, name, long, lat, tag);

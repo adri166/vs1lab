@@ -67,10 +67,19 @@
                             <li><%= gtag.name %> ( <%= gtag.latitude %>,<%= gtag.longitude %>) <%= gtag.tag %> </li>
                         <% }); %>
                     </ul>
+                    <ul class="discovery__taglist__pagination" id="discoveryPagination">
+                        <li>
+                            <button name="paginationPrev" title="previous results" id="paginationPrev">☚</button>
+                        </li>
+                        <li><span id="currentPage"></span> / <span id="maxPage"></span> (<span id="listElements"></span>)</li>
+                        <li>
+                            <button name="paginationNext" title="next results" id="paginationNext">☛</button>
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="discovery__map col-8">
-                    <img alt="a map with locations" id="mapView" data-tags=<%= encodeURIComponent(JSON.stringify(taglist)) %> />
+                    <img alt="a map with locations" id="mapView" data-tags=<%- JSON.stringify(taglist) %> />
                     <span>Result map</span>
                 </div>
             </div>

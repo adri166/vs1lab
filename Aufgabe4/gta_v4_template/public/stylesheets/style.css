@@ -154,7 +154,6 @@ fieldset {
   float: right;
 }
 
-/* ### TODO ### Styles for Main Component */
 
 /* ... your code here ... */
 .main {
@@ -164,9 +163,7 @@ fieldset {
   margin-bottom: 30px;
 }
 
-/* ### TODO ### Styles for Tagging component */
 
-/* ... your code here ... */
 .tagging {
   display: flex;
   margin: 20px;
@@ -178,9 +175,7 @@ fieldset {
 }
 
 
-/* ### TODO ### Styles for Discovery component */
 
-/* ... your code here ... */
 .discovery {
   display: flex;
   margin: 20px;
@@ -213,9 +208,6 @@ fieldset {
 
 
 
-/* ### TODO ### Styles for Footer Component */
-
-/* ... your code here ... */
 .footer {
   padding: 15px;
   background-color: #dddddd;
@@ -224,9 +216,39 @@ fieldset {
   width: 100%;
 }
 
-/* ### TODO ### Media Queries */
+.discovery__taglist__pagination {
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-/* ... your code here ... */
+.discovery__taglist__pagination li {
+  padding: 0.25rem;
+}
+
+.discovery__taglist__pagination li button {
+  padding: 0.25rem 0.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 0;
+  background: lightgray;
+  border: 1px solid gray;
+}
+
+.discovery__taglist__pagination li button:hover {
+  background: gray;
+}
+.discovery__taglist__pagination li button:disabled {
+  cursor: not-allowed;
+  background: lightgray;
+}
+
+
 @media screen and (max-width: 1000px) {
 
   [class *= "col-"] {

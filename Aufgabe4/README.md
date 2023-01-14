@@ -129,18 +129,18 @@ Zur Übersicht folgen noch mal alle Anforderungen in kompakter Form als Checklis
 
 ### 2. Teilaufgabe: Client-Erweiterung
 
-- [ ] **Formularauswertung** ändern
-  - [ ] **Event-Listener** für beide Formulare registrieren
-  - [ ] **Absenden** der Formulare verhindern
-  - [ ] **Formular-Validierung** bleibt erhalten
-- [ ] **AJAX-Aufrufe** per **Fetch API** hinzufügen
-  - [ ] Aufruf im **Tagging Formular** *asynchron*
-    - [ ] *HTTP POST* mit Body in *JSON Format*
-  - [ ] Aufruf im **Discovery Formular** *asynchron*
-    - [ ] *HTTP GET* mit *Query Parametern* 
-- [ ] **Anzeigeaktualisierung** realisieren
-  - [ ] **Ergebnisliste** aktualisieren
-  - [ ] **Karte** aktualisieren
+- [X] **Formularauswertung** ändern
+  - [x] **Event-Listener** für beide Formulare registrieren
+  - [x] **Absenden** der Formulare verhindern
+  - [x] **Formular-Validierung** bleibt erhalten
+- [x] **AJAX-Aufrufe** per **Fetch API** hinzufügen
+  - [x] Aufruf im **Tagging Formular** *asynchron*
+    - [x] *HTTP POST* mit Body in *JSON Format*
+  - [x] Aufruf im **Discovery Formular** *asynchron*
+    - [x] *HTTP GET* mit *Query Parametern* 
+- [x] **Anzeigeaktualisierung** realisieren
+  - [x] **Ergebnisliste** aktualisieren
+  - [x] **Karte** aktualisieren
 
 ### Zusatzaufgabe: Pagination
 

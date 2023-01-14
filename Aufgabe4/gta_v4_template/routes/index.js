@@ -71,7 +71,7 @@ let saved_lon = null;
   saved_lat = lat;
   saved_lon = long;
 
-  tagStore.addGeoTag(new GeoTag(name, long, lat, tag));
+  tagStore.addGeoTag(name, long, lat, tag);
   list = tagStore.getNearbyGeoTags(long, lat, 20);
   res.render('index', { taglist: list, lat: saved_lat, lon: saved_lon});
 });
@@ -155,9 +155,7 @@ let saved_lon = null;
   let lat = req.body.latitude;
   let tag = req.body.hashtag;
 
-  geoTag = new GeoTag(name, long, lat, tag);
-
-  id = tagStore.addGeoTag(geoTag);
+  id = tagStore.addGeoTag(name, long, lat, tag);
   res.location('api/geoTags/' + id).status(201).json(geoTag);
 })
 

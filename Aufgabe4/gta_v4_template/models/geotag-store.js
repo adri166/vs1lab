@@ -34,7 +34,7 @@ class InMemoryGeoTagStore{
  
     constructor() {
         // set new ID counter
-        let tmp_idCounter = 1;
+        let tmp_idCounter = 0;
 
         // load Examples
         let tmp = GeoTagExamples.tagList;
@@ -45,7 +45,7 @@ class InMemoryGeoTagStore{
         
         // convert example arr. to GeoTag type and add to tmp_geoTags
         tmp.forEach(function (element) {
-            let tmp_tag = new GeoTag(element[0], element[2], element[1], element[3]);
+            let tmp_tag = new GeoTag(element[0], element[2], element[1], element[3], tmp_idCounter);
             tmp_geoTags.push(tmp_tag);
             tmp_geoTagsMap.set(tmp_idCounter, tmp_tag);
             tmp_idCounter += 1;
@@ -56,9 +56,10 @@ class InMemoryGeoTagStore{
         this.#geoTagsMap = tmp_geoTagsMap;  
       }
 
-    addGeoTag(tag) {
+    addGeoTag(name, long, lat, hashtag) {
         id = this.#idCounter;
         this.#idCounter += 1;
+        let tag = new GeoTag(name, long, lat, hashtag, id)
         this.#geoTagsMap.set(id, tag);
         return id;
     }
@@ -119,8 +120,12 @@ class InMemoryGeoTagStore{
 
     updateGeoTagByID(id, name, long, lat, tag) {
         if (this.#geoTagsMap.get(id)) {
-            newTag = new GeoTag(name, long, lat, tag);
-            this.#geoTagsMap.set(id, newTag);
+            updatedTag = this.#geoTagsMap.get(id);
+            updatedTag.name = name;
+            updatedTag.longitude = long;
+            updatedTag.latitude = lat;
+            updatedTag.tag = tag;
+            this.#geoTagsMap.set(id, updatedTag);
             return newTag;
         }
     }

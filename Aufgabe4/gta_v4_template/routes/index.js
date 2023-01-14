@@ -240,4 +240,25 @@ router.delete('/api/geotags/:id', function (req, res) {
   
 })
 
+/**
+  * Route '/api/geotags/page/:number' for HTTP 'POST' request.
+  * (Pagination)
+  */
+ router.post('/api/geotags/page/:number', (req, res) => {
+  const NUMBER_OF_TAGS = 5;
+
+  let pageNumber = req.params.number - 1;
+  let geoTags = req.body;
+  let index = pageNumber * NUMBER_OF_TAGS;
+  let retArray = [];
+
+  for (let i = index; i < geoTags.length; i++) {
+      retArray.push(geoTags[i]);
+      if(retArray.length === NUMBER_OF_TAGS) {
+          break;
+      }
+  }
+  res.status(201).json(JSON.stringify(retArray));
+});
+
 module.exports = router;

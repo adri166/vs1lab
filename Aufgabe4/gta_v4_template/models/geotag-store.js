@@ -27,26 +27,15 @@
 const GeoTag = require('./geotag');
 const GeoTagExamples = require('./geotag-examples');
 
-function createTagID(tag) {
-    let tag_str = tag.longitude + "_" + tag.latitude + "_" + tag.name + "_" + tag.tag
-    //set variable hash as 0
-    var hash = 0;
-    // if the length of the string is 0, return 0
-    if (tag_str.length == 0) return hash;
-    for (let i = 0 ;i<tag_str.length ; i++)
-    {
-        let ch = tag_str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + ch;
-        hash = hash & hash;
-    }
-    return hash;
-}
-
 class InMemoryGeoTagStore{
 
     #geoTagsMap;
+    #idCounter;
  
     constructor() {
+        // set new ID counter
+        let tmp_idCounter = 1;
+
         // load Examples
         let tmp = GeoTagExamples.tagList;
 
@@ -58,15 +47,18 @@ class InMemoryGeoTagStore{
         tmp.forEach(function (element) {
             let tmp_tag = new GeoTag(element[0], element[2], element[1], element[3]);
             tmp_geoTags.push(tmp_tag);
-            tmp_geoTagsMap.set(createTagID(tmp_tag), tmp_tag);
+            tmp_geoTagsMap.set(tmp_idCounter, tmp_tag);
+            tmp_idCounter += 1;
         });
-
+        
+        this.#idCounter = tmp_idCounter;
         // set privte var with tmp var
         this.#geoTagsMap = tmp_geoTagsMap;  
       }
 
     addGeoTag(tag) {
-        id = createTagID(tag);
+        id = this.#idCounter;
+        this.#idCounter += 1;
         this.#geoTagsMap.set(id, tag);
         return id;
     }

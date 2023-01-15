@@ -141,8 +141,8 @@ function updatePagination(answer_json) {
  async function fetchPaginatedTags_by_search(searchTerm, page) {
     let latitude = document.getElementById("searchLatitude") . value;
     let longitude =  document.getElementById("searchLongitude") . value;
-
-    let response = await fetch("http://localhost:3000/api/geotags/page/"+ page + "?search=" + searchTerm + "&latitude=" + latitude + "&longitude=" + longitude);
+    let search_url = "http://localhost:3000/api/geotags/page/"+ page + `?search=${encodeURIComponent(searchTerm)}`+"&latitude=" + latitude + "&longitude=" + longitude;
+    let response = await fetch(search_url);
     return await response.json();
 }
 

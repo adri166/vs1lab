@@ -10,20 +10,17 @@
 console.log("The geoTagging script is going to start...");
 
 let memoryTaglist = JSON.parse(document.getElementById("mapView").getAttribute("data-tags"));
-const NUMBER_OF_TAGS = 5;
 
 function initPagination() {
-    let maxPages = Math.ceil(memoryTaglist.length / NUMBER_OF_TAGS);
 
-    document.getElementById("paginationNext").disabled = false;
+    document.getElementById("paginationNext").disabled = true;
     document.getElementById("paginationPrev").disabled = true;
 
-    if (memoryTaglist.length < 1) {document.getElementById("currentPage").innerHTML = "0";}
-    else {document.getElementById("currentPage").innerHTML = "1";}
+    document.getElementById("currentPage").innerHTML = "0";
     document.getElementById("listElements").innerHTML = memoryTaglist.length;
 
-    document.getElementById("maxPage").innerHTML = maxPages.toString();
-    getPaginationTags(1).then(updatePagination);
+    document.getElementById("maxPage").innerHTML = "0";
+    fetchAllTags().then(updatePagination);
 }
 
 function updateMap_by_LatLon(lat, lon) {
@@ -35,14 +32,14 @@ function updateMap_by_LatLon(lat, lon) {
     document.getElementById("mapView") . src = mapURL;
 }
 
-function updateMap_by_tags(taglist) {
+function updateMap_by_tags(answer_json) {
     let lat = document.getElementById("latitude") . value;
     let lon =  document.getElementById("longitude") . value;
     mm = new MapManager('3qE6hTnfkG4AwMPpgnCpyHG7NaHyxOi9');
-    mapURL = mm.getMapUrl(lat, lon, taglist);
+    mapURL = mm.getMapUrl(lat, lon, answer_json.geotags);
 
     document.getElementById("mapView") . src = mapURL;
-    return taglist;
+    return answer_json;
 }
 
 function updateLocation() {
@@ -66,15 +63,15 @@ function updateLocation() {
     }
 }
 
-function updateTagList(tags) {
-    memoryTaglist = tags;
-    initPagination();
-    return parseInt(document.getElementById("currentPage").innerHTML);
+function updateTagList(answer_json) {
+    memoryTaglist = answer_json.geotags;
+    if (memoryTaglist.length >= 1) {document.getElementById("currentPage").innerHTML = "1";}
+    return answer_json;
 }
 
-function updatePagination(tags) {
+function updatePagination(answer_json) {
     let currentPage = parseInt(document.getElementById("currentPage").innerHTML);
-    let taglist = JSON.parse(tags);
+    let taglist = answer_json.geotags;
     if (taglist !== undefined) {
         let list = document.getElementById("discoveryResults");
         list.innerHTML = "";
@@ -86,17 +83,17 @@ function updatePagination(tags) {
         });
     }
 
-    let maxPageNumber = Math.ceil(memoryTaglist.length / NUMBER_OF_TAGS);
+    let maxPageNumber = answer_json.maxPages;
 
-    if (currentPage === maxPageNumber && maxPageNumber <= 1) {
+    if (currentPage < 1) {
         document.getElementById("paginationNext").disabled = true;
+        document.getElementById("paginationPrev").disabled = true;
+    } else if (currentPage <= maxPageNumber && currentPage === 1) {
+        document.getElementById("paginationNext").disabled = false;
         document.getElementById("paginationPrev").disabled = true;
     } else if (currentPage < maxPageNumber && currentPage > 1) {
         document.getElementById("paginationNext").disabled = false;
         document.getElementById("paginationPrev").disabled = false;
-    } else if (currentPage < maxPageNumber) {
-        document.getElementById("paginationNext").disabled = false;
-        document.getElementById("paginationPrev").disabled = true;
     } else if (currentPage === maxPageNumber) {
         document.getElementById("paginationNext").disabled = true;
         document.getElementById("paginationPrev").disabled = false;
@@ -108,14 +105,19 @@ function updatePagination(tags) {
 }
 
 /**
- * fetch for Pagination-Tags (5)
+ * fetch for All-Tags
  */
- async function getPaginationTags(currentPage) {
-    let geotags = await fetch("http://localhost:3000/api/geotags/page/" + currentPage, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(memoryTaglist),
-    });
+ async function fetchAllTags() {
+    let geotags = await fetch("http://localhost:3000/api/geotags");
+    return await geotags.json();
+}
+
+
+/**
+ * fetch for Pagination-Tags
+ */
+ async function fetchPaginatedTags(currentPage) {
+    let geotags = await fetch("http://localhost:3000/api/geotags/page/" + currentPage);
     return await geotags.json();
 }
 
@@ -135,11 +137,11 @@ function updatePagination(tags) {
 /**
  * fetch for Discovery
  */
- async function getTags(searchTerm) {
+ async function fetchPaginatedTags_by_search(searchTerm) {
     let latitude = document.getElementById("searchLatitude") . value;
     let longitude =  document.getElementById("searchLongitude") . value;
 
-    let response = await fetch("http://localhost:3000/api/geotags?search=" + searchTerm + "&latitude=" + latitude + "&longitude=" + longitude);
+    let response = await fetch("http://localhost:3000/api/geotags/page/1?search=" + searchTerm + "&latitude=" + latitude + "&longitude=" + longitude);
     return await response.json();
 }
 
@@ -157,7 +159,8 @@ function updatePagination(tags) {
         hashtag: document.getElementById("hashtag").value
     }
 
-    post(geotag).then(updateMap_by_tags).then(updateTagList).then(getPaginationTags).then(updatePagination);
+    post(geotag);
+    fetchPaginatedTags(1).then(updateTagList).then(updatePagination);
 
     // empty fields
     document.getElementById("name").value = "";
@@ -173,7 +176,7 @@ document.getElementById("discoveryFilterForm").addEventListener("submit", functi
 
     let searchTerm = document.getElementById("searchterm").value;
 
-    getTags(searchTerm).then(updateMap_by_tags).then(updateTagList).then(getPaginationTags).then(updatePagination).catch(error => alert("Search term does not exist"));
+    fetchPaginatedTags_by_search(searchTerm).then(updateMap_by_tags).then(updateTagList).then(updatePagination).catch(error => alert("Search term does not exist"));
 });
 
 
@@ -184,7 +187,7 @@ document.getElementById("paginationNext").addEventListener("click", function (ev
     let currentPage = parseInt(document.getElementById("currentPage").innerHTML) + 1;
     document.getElementById("currentPage").innerHTML = currentPage.toString();
 
-    getPaginationTags(currentPage).then(updatePagination);
+    fetchPaginatedTags(currentPage).then(updatePagination);
 });
 
 document.getElementById("paginationPrev").addEventListener("click", function (evt) {
@@ -193,7 +196,7 @@ document.getElementById("paginationPrev").addEventListener("click", function (ev
     let currentPage = parseInt(document.getElementById("currentPage").innerHTML) - 1;
     document.getElementById("currentPage").innerHTML = currentPage.toString();
 
-    getPaginationTags(currentPage).then(updatePagination);
+    fetchPaginatedTags(currentPage).then(updatePagination);
 });
 
 

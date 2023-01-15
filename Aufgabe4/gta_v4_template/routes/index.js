@@ -12,6 +12,7 @@
 
 const express = require('express');
 const router = express.Router();
+const NUMBER_OF_TAGS = 5;
 
 /**
  * The module "geotag" exports a class GeoTagStore. 
@@ -125,16 +126,89 @@ let saved_lon = null;
   if (typeof long == 'undefined') {long = "";}
   let lat = req.query.latitude;
   if (typeof lat == 'undefined') {lat = "";}
+  let pagination = false;
 
   if(searchterm != "" && long != "" && lat != "") {
     list = tagStore.searchNearbyGeoTags(long, lat, 20, searchterm);
+    pagination = true;
   } else if(searchterm != "") {
     list = tagStore.searchGeoTags(searchterm);
+    pagination = true;
   } else {
     list = tagStore.getGeotags();
   }
-  res.status(200).json(list);
+
+  let count = list.length;
+  let answer_list = list;
+  let maxPages = Math.ceil(count / NUMBER_OF_TAGS);
+
+  let prev = null;
+  let next = null;
+
+  if (pagination) {
+    answer_list = list.slice(0, NUMBER_OF_TAGS);
+    next = 2;
+    if (maxPages < next) {next = maxPages;}
+  }
+  
+  
+  let answer = {
+    count: count,
+    maxPages: maxPages,
+    prev: prev,
+    next: next,
+    geotags: answer_list
+    }
+  res.status(200).json(answer);
 })
+
+/**
+  * Route '/api/geotags/page/:number' for HTTP 'POST' request.
+  * (Pagination)
+  */
+ router.get('/api/geotags/page/:number', (req, res) => {
+  let pageNumber = parseInt(req.params.number);
+  let searchterm = req.query.search;
+  if (typeof searchterm == 'undefined') {searchterm = "";}
+  let long = req.query.longitude;
+  if (typeof long == 'undefined') {long = "";}
+  let lat = req.query.latitude;
+  if (typeof lat == 'undefined') {lat = "";}
+
+  if(searchterm != "" && long != "" && lat != "") {
+    list = tagStore.searchNearbyGeoTags(long, lat, 20, searchterm);
+    pagination = true;
+  } else if(searchterm != "") {
+    list = tagStore.searchGeoTags(searchterm);
+    pagination = true;
+  } else {
+    list = tagStore.getGeotags();
+  }
+
+  let count = list.length;
+  let answer_list = list;
+  let maxPages = Math.ceil(count / NUMBER_OF_TAGS);
+
+  if (pageNumber < 1 || pageNumber > maxPages) {res.status(204).json(""); return;}
+
+  let prev = null;
+  let next = null;
+
+  let start_index = (pageNumber - 1) * NUMBER_OF_TAGS;
+  answer_list = list.slice(start_index, start_index + NUMBER_OF_TAGS);
+  next = 2;
+  if (maxPages < next) {next = maxPages;}
+  
+  
+  let answer = {
+    count: count,
+    maxPages: maxPages,
+    prev: prev,
+    next: next,
+    geotags: answer_list
+    }
+  res.status(200).json(answer);
+});
 
 
 /**
@@ -161,6 +235,7 @@ let saved_lon = null;
   res.status(201).json(newTag);
 
 })
+
 
 
 /**

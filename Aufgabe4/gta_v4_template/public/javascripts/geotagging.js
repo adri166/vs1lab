@@ -65,12 +65,12 @@ function updateLocation() {
 
 function updateTagList(answer_json) {
     memoryTaglist = answer_json.geotags;
-    if (memoryTaglist.length >= 1) {document.getElementById("currentPage").innerHTML = "1";}
+    document.getElementById("currentPage").innerHTML = answer_json.currPage;
     return answer_json;
 }
 
 function updatePagination(answer_json) {
-    let currentPage = parseInt(document.getElementById("currentPage").innerHTML);
+    let currentPage = answer_json.currPage;
     let taglist = answer_json.geotags;
     if (taglist !== undefined) {
         let list = document.getElementById("discoveryResults");
@@ -89,7 +89,8 @@ function updatePagination(answer_json) {
         document.getElementById("paginationNext").disabled = true;
         document.getElementById("paginationPrev").disabled = true;
     } else if (currentPage <= maxPageNumber && currentPage === 1) {
-        document.getElementById("paginationNext").disabled = false;
+        if (maxPageNumber === currentPage) {document.getElementById("paginationNext").disabled = true;}
+        else {document.getElementById("paginationNext").disabled = false;}
         document.getElementById("paginationPrev").disabled = true;
     } else if (currentPage < maxPageNumber && currentPage > 1) {
         document.getElementById("paginationNext").disabled = false;
@@ -100,7 +101,7 @@ function updatePagination(answer_json) {
     }
 
     document.getElementById("currentPage").innerHTML = currentPage.toString();
-    document.getElementById("listElements").innerHTML = memoryTaglist.length;
+    document.getElementById("listElements").innerHTML = answer_json.geotags.length;
     document.getElementById("maxPage").innerHTML = maxPageNumber.toString();
 }
 
@@ -137,11 +138,11 @@ function updatePagination(answer_json) {
 /**
  * fetch for Discovery
  */
- async function fetchPaginatedTags_by_search(searchTerm) {
+ async function fetchPaginatedTags_by_search(searchTerm, page) {
     let latitude = document.getElementById("searchLatitude") . value;
     let longitude =  document.getElementById("searchLongitude") . value;
 
-    let response = await fetch("http://localhost:3000/api/geotags/page/1?search=" + searchTerm + "&latitude=" + latitude + "&longitude=" + longitude);
+    let response = await fetch("http://localhost:3000/api/geotags/page/"+ page + "?search=" + searchTerm + "&latitude=" + latitude + "&longitude=" + longitude);
     return await response.json();
 }
 
@@ -176,7 +177,7 @@ document.getElementById("discoveryFilterForm").addEventListener("submit", functi
 
     let searchTerm = document.getElementById("searchterm").value;
 
-    fetchPaginatedTags_by_search(searchTerm).then(updateMap_by_tags).then(updateTagList).then(updatePagination).catch(error => alert("Search term does not exist"));
+    fetchPaginatedTags_by_search(searchTerm, 1).then(updateMap_by_tags).then(updateTagList).then(updatePagination).catch(error => alert("Search term does not exist"));
 });
 
 
@@ -184,19 +185,21 @@ document.getElementById("discoveryFilterForm").addEventListener("submit", functi
 document.getElementById("paginationNext").addEventListener("click", function (evt) {
     evt.preventDefault();
 
-    let currentPage = parseInt(document.getElementById("currentPage").innerHTML) + 1;
-    document.getElementById("currentPage").innerHTML = currentPage.toString();
+    let nextPage = parseInt(document.getElementById("currentPage").innerHTML) + 1;
+    let searchTerm = document.getElementById("searchterm").value;
+    document.getElementById("currentPage").innerHTML = nextPage.toString();
 
-    fetchPaginatedTags(currentPage).then(updatePagination);
+    fetchPaginatedTags_by_search(searchTerm, nextPage).then(updateMap_by_tags).then(updateTagList).then(updatePagination).catch(error => alert("Search term does not exist"));
 });
 
 document.getElementById("paginationPrev").addEventListener("click", function (evt) {
     evt.preventDefault();
 
-    let currentPage = parseInt(document.getElementById("currentPage").innerHTML) - 1;
-    document.getElementById("currentPage").innerHTML = currentPage.toString();
+    let prevPage = parseInt(document.getElementById("currentPage").innerHTML) - 1;
+    let searchTerm = document.getElementById("searchterm").value;
+    document.getElementById("currentPage").innerHTML = prevPage.toString();
 
-    fetchPaginatedTags(currentPage).then(updatePagination);
+    fetchPaginatedTags_by_search(searchTerm, prevPage).then(updateMap_by_tags).then(updateTagList).then(updatePagination).catch(error => alert("Search term does not exist"));
 });
 
 

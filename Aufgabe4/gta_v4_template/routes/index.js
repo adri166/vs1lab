@@ -155,6 +155,7 @@ let saved_lon = null;
   let answer = {
     count: count,
     maxPages: maxPages,
+    currPage: 0,
     prev: prev,
     next: next,
     geotags: answer_list
@@ -191,18 +192,19 @@ let saved_lon = null;
 
   if (pageNumber < 1 || pageNumber > maxPages) {res.status(204).json(""); return;}
 
-  let prev = null;
-  let next = null;
+  let prev = pageNumber-1;
+  if (prev < 1) {prev = null;}
+  let next = pageNumber+1;
+  if (next > maxPages) {next = null;}
 
   let start_index = (pageNumber - 1) * NUMBER_OF_TAGS;
   answer_list = list.slice(start_index, start_index + NUMBER_OF_TAGS);
-  next = 2;
-  if (maxPages < next) {next = maxPages;}
   
   
   let answer = {
     count: count,
     maxPages: maxPages,
+    currPage: pageNumber,
     prev: prev,
     next: next,
     geotags: answer_list

@@ -177,7 +177,7 @@ document.getElementById("discoveryFilterForm").addEventListener("submit", functi
 
     let searchTerm = document.getElementById("searchterm").value;
 
-    fetchPaginatedTags_by_search(searchTerm, 1).then(updateMap_by_tags).then(updateTagList).then(updatePagination).catch(error => alert("Search term does not exist"));
+    fetchPaginatedTags_by_search(searchTerm, 1).then(updateMap_by_tags).then(updateTagList).then(updatePagination).catch(error => alert("Search term does not exist or is not in your proximity"));
 });
 
 

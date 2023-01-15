@@ -134,6 +134,9 @@ let saved_lon = null;
   } else if(searchterm != "") {
     list = tagStore.searchGeoTags(searchterm);
     pagination = true;
+  } else if(long != "" && lat != "") {
+    list = tagStore.getNearbyGeoTags(long, lat, 20);
+    pagination = true;
   } else {
     list = tagStore.getGeotags();
   }
